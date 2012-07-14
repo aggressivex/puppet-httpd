@@ -67,7 +67,7 @@ class httpd {
     content => $conf_setup['conf_vhost_include_pattern'],
     mode    => 644,
     notify  => Service['httpd'],
-    require => File['httpd_conf_directory']    
+    require => File['httpd_conf_directory']
   }
 
   service { 'httpd':
