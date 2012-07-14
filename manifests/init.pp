@@ -63,13 +63,13 @@ class httpd {
 
   file { "httpd_conf_vhost_include":
     path    => $conf_setup['conf_vhost_include_path'],
-    owner   => root,
-    group   => root,
-    mode    => 644,
+    ensure  => "present",
     content => $conf_setup['conf_vhost_include_pattern'],
+    mode    => 644,
     notify  => Service['httpd'],
-    require => File['httpd_conf_directory']
+    require => File['httpd_conf_directory']    
   }
+
   service { 'httpd':
     ensure    => running,
     name      => 'httpd',
