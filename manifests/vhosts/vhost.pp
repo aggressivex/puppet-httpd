@@ -1,0 +1,7 @@
+
+# Class: vhost
+#
+#
+class vhost {
+  
+}

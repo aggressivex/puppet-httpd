@@ -1,0 +1,22 @@
+#
+# This file has been generated automatically by Aggressivex/puppet-httpd
+# Issue [No logical order] As ruby doesn't keep order in hashes, to avoid 
+# randomness hash is sort
+#
+<% conf_httpd.sort.each do |key, value| -%>
+<% if value.is_a? String -%><%= key %> <%= value %>
+<% end -%>
+<% if value.is_a? Hash -%>
+<<%= key %>>
+<% value.sort.each do |k2, v2| -%>
+    <% if v2.is_a? String -%><%= k2 %> <%= v2 %>
+<% end -%>
+<% end -%>
+</<%= key.split(/ /)[0] -%>>
+<% end -%>
+<% if value.is_a? Array -%>
+<% value.each do |k3, v3| -%>
+<%= key %> <%= k3 %> <%= v3 %>
+<% end -%>
+<% end -%>
+<% end -%>
