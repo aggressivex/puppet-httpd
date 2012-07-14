@@ -47,7 +47,6 @@ class httpd {
     path    => $conf_setup['conf_path'],
     recurse => true,
     purge   => true,
-    notify  => Service['httpd'],
     require => Package['httpd'],
   }
 
@@ -57,7 +56,6 @@ class httpd {
     group   => root,
     mode    => 644,
     content => template($conf_setup['conf_template']),
-    notify  => Service['httpd'],
     require => File['httpd_conf_directory']
   }
 
@@ -66,15 +64,15 @@ class httpd {
     ensure  => "present",
     content => $conf_setup['conf_vhost_include_pattern'],
     mode    => 644,
-    notify  => Service['httpd'],
     require => File['httpd_conf_directory']
   }
 
   service { 'httpd':
-    ensure    => running,
-    name      => 'httpd',
-    enable    => true,
-    subscribe => Package['httpd'],
-    require   => File['httpd_conf_file']
+    name       => 'httpd',  
+    ensure     => 'running',
+    enable     => true,    
+    hasrestart => true,
+    hasstatus  => true,
+    require    => Package ['httpd']
   }
 }

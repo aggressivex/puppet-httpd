@@ -4,7 +4,7 @@ class conf {
     'conf_path' => '/etc/httpd/conf.d/',
     'conf_template' => 'httpd/httpd.auto.erb',
     'conf_vhost_include_path' => '/etc/httpd/conf.d/vhost.conf',    
-    'conf_vhost_include_pattern' => '/var/www/*/*/conf/httpd/*',
+    'conf_vhost_include_pattern' => '#Include /var/www/project/host/conf/httpd/*',
     'conf_vhost_template' => 'vhost.default.erb'
   }
 
