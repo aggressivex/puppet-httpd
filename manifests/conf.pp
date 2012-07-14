@@ -1,11 +1,11 @@
 class conf {
-  
+
   $setup = {
-    'conf_path' => '/etc/httpd/conf.d/',
-    'conf_template' => 'httpd/httpd.auto.erb',
-    'conf_vhost_include_path' => '/etc/httpd/conf.d/vhost.conf',    
+    'conf_path'                  => '/etc/httpd/conf.d/',
+    'conf_template'              => 'httpd/httpd.auto.erb',
+    'conf_vhost_include_path'    => '/etc/httpd/conf.d/vhost.conf',    
     'conf_vhost_include_pattern' => '#Include /var/www/project/host/conf/httpd/*',
-    'conf_vhost_template' => 'vhost.default.erb'
+    'conf_vhost_template'        => 'vhost.default.erb'
   }
 
   $default = {
@@ -14,7 +14,7 @@ class conf {
     'ServerRoot'           => '/etc/httpd',
     'Include'              => 'conf.d/*.conf',
     'ServerName'           => 'localhost.localdomain',
-    'Listen'               => '192.168.33.10:80',
+    'Listen'               => "$::ipaddress:80",
     'User'                 => 'apache',
     'Group'                => 'www-data',
     'Timeout'              => '120',
