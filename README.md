@@ -1,8 +1,9 @@
 # Aggressivex puppet module for Httpd (Apache2)
 
-## This module is in development process don't use for production stage
+## <span style="color:red">This module is in development process </span>
 
-**Features defined here are still missing.**
+<span style="color:red">**Don't use for production stage eatures defined here 
+are still missing.**</span>
 
 This module provides a installation of apache and its virtualhosts for CentOS/EL
 
