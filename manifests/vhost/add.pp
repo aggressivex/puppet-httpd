@@ -52,7 +52,7 @@ define httpd::vhost::add (
     group   => root,
     mode    => 644,
     content => template($final_setup['template']),
-    require => File['httpd_conf_directory'],
+    require => [Service['httpd'], File['httpd_conf_directory']]
     notify  => Service['httpd'],
   }
 
