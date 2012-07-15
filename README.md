@@ -1,14 +1,19 @@
-#Aggressivex module for Httpd (Apache2)
+# Aggressivex puppet module for Httpd (Apache2)
 
 ## This module is in development process don't use for production stage
 
-This module provides a installation of apache and its virtualhosts
+**Features defined here are still missing.**
 
-## Features
+This module provides a installation of apache and its virtualhosts for CentOS/EL
+
+## Features - in dev process!
     
-    - Setup httpd
-    - Httpd.conf configurable 100% generated.
-    - Possiblity to add Vhost/s options 100% configurables.
+    - Setup httpd & ensure running.
+    - Apache configuration file generator
+    - Httpd.conf customizable 100% generated.
+    - Possiblity to add Vhost/s 100% customizables.
+    - Vhosts files organized on each porject tree.
+    - Vhosts batch definition in one hash.
 
 ## Basic usage
 
@@ -73,6 +78,12 @@ A combined example can be see in manifests/conf.pp that is used as default setup
 TODO
 
 ## VirtualHosts
+TODO
+
+## VirtualHosts batch add
+TODO
+
+## Conf file generator
 TODO
 
 ## Copyright and License
