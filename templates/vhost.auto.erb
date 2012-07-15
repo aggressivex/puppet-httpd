@@ -3,10 +3,11 @@
 # Issue [No logical order] As ruby doesn't keep order in hashes, to avoid 
 # randomness hash is sort
 #
-<VirtualHost <%= virtul_host_ip %>:<%= virtul_host_port %>>
-    <% conf_vhost.sort.each do |key, value| -%>
+NameVirtualHost <%= ip %>:<%= port %>
+<VirtualHost <%= ip %>:<%= port %>>
+<% final_vhost.sort.each do |key, value| -%>
     <% if value.is_a? String -%><%= key %> <%= value %>
-    <% end -%>
+<% end -%>
     <% if value.is_a? Hash -%>
     <<%= key %>>
     <% value.sort.each do |k2, v2| -%>
