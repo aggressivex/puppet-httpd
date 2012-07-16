@@ -28,8 +28,13 @@ define httpd::vhost::add (
 
   $final_vhost = $default_vhost
 
+  if ! defined(File["/var/www/vhosts/$project"]) {
+    file { "/var/www/vhosts/$project":
+      ensure => "directory"
+    }
+  }
+
   $default_dirs = [
-    "/var/www/vhosts/$project",
     "/var/www/vhosts/$project/$host",
     "/var/www/vhosts/$project/$host/httpdocs",
     "/var/www/vhosts/$project/$host/conf",
@@ -48,11 +53,10 @@ define httpd::vhost::add (
   $final_setup = $default_setup
 
   file { $final_dirs:
-      ensure => "directory",
-      mode   => 775,
+    ensure => "directory"
   }
 
-  file { "httpd_vhost_add_file":
+  file { "httpd_vhost_add_file_${host}":
     path    => "/var/www/vhosts/$project/$host/conf/httpd/vhost.conf",
     mode    => 644,
     content => template($final_setup['template']),
@@ -65,15 +69,10 @@ define httpd::vhost::add (
   $include = $default_setup['include']
   $includer = $default_setup['includer']
 
-  # file { "/etc/modules": ensure => present, }
-  # line { dummy_module:
-  #     file => "/etc/modules",
-  #     line => "dummy",
-  # }
-
-  httpd::conf::line { httpd_vhost_add_include:
+  httpd::conf::line { "httpd_vhost_add_include${host}":
     file => $includer,
     line => "Include $include",
-    require => File['httpd_conf_directory']
+    require => File['httpd_conf_directory'],
+    notify  => Service['httpd'],
   }
 }
