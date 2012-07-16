@@ -14,7 +14,7 @@ class conf {
     'ServerRoot'           => '/etc/httpd',
     'Include'              => 'conf.d/*.conf',
     'ServerName'           => 'localhost.localdomain',
-    'Listen'               => "$::ipaddress:80",
+    'Listen'               => "*:80",
     'User'                 => 'apache',
     'Group'                => 'www-data',
     'Timeout'              => '120',
@@ -45,7 +45,7 @@ class conf {
       'Options'       => 'FollowSymLinks',
       'AllowOverride' => 'None',
     },
-    'Directory "/var/www/html"' => {
+    'Directory "/var/www/vhosts"' => {
       'Options'       => 'FollowSymLinks',
       'AllowOverride' => 'None',
       'Order'         => 'allow,deny',
@@ -68,10 +68,12 @@ class conf {
     'LogLevel'        => 'warn',
     'HostnameLookups' => 'Off',
     'CustomLog'       => 'logs/access_log combined',
-    'ServerSignature' => 'On',
-    'Alias'           => '/icons/ "/var/www/icons/"',
+    'ServerSignature' => 'Off',
     'ScriptAlias'     => '/cgi-bin/ "/var/www/cgi-bin/"',
-    'Alias /error/'   => '"/var/www/error/"',
+    'Alias' => [
+      '/icons/ "/var/www/icons/"',
+      '/error/ "/var/www/error/"'
+    ],
     'IndexOptions'    => 'FancyIndexing VersionSort NameWidth=* HTMLTable',
     'IndexIgnore'     => '.??* *~ *# HEADER* README* RCS CVS *,v *,t',
     'Directory "/var/www/icons"' => {
@@ -79,7 +81,7 @@ class conf {
       'Order'  => 'allow,deny',
       'Allow'  => 'from all',
     },
-    'Directory "/var/www/cgi-bin"' => {
+    'Directory "/var/www/vhosts/cgi-bin"' => {
       'AllowOverride' => 'None',
       'Options'  => 'None',
       'Order'  => 'allow,deny',

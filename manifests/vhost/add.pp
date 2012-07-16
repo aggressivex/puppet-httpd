@@ -7,8 +7,9 @@ define httpd::vhost::add (
     $project   = 'default',
     $host      = "$::hostname.dev",
     $extraPath = '',
+    $setupMode = '',
     $vhost     = false,
-    $dirs      = false,    
+    $dirs      = false,
     $setup     = false,
   ) {
 
@@ -17,7 +18,12 @@ define httpd::vhost::add (
     'ServerName'   => "$host",
     'ServerAlias'  => "www.$host",
     'ErrorLog'     => "/var/www/vhosts/$project/$host/logs/error_log",
-    'TransferLog'  => "/var/www/vhosts/$project/$host/logs/access_log"
+    'TransferLog'  => "/var/www/vhosts/$project/$host/logs/access_log",
+    "Directory /var/www/vhosts/$project/$host/httpdocs/" => {
+      'AllowOverride' => 'All',
+      'Order'         => 'allow,deny',
+      'Allow'         => 'from all'
+    }
   }
 
   $final_vhost = $default_vhost
@@ -43,15 +49,11 @@ define httpd::vhost::add (
 
   file { $final_dirs:
       ensure => "directory",
-      owner  => "root",
-      group  => "www-data",
-      mode   => 755,
+      mode   => 775,
   }
 
   file { "httpd_vhost_add_file":
     path    => "/var/www/vhosts/$project/$host/conf/httpd/vhost.conf",
-    owner   => root,
-    group   => root,
     mode    => 644,
     content => template($final_setup['template']),
     require => Package['httpd'],
