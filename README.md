@@ -2,10 +2,10 @@
 
 ## <span style="color:red">This module is in development process </span>
 
-<span style="color:red">**Don't use for production stage eatures defined here 
+<span style="color:red">**Don't use for production stage features defined here 
 are still missing.**</span>
 
-This module provides a installation of apache and its virtualhosts for CentOS/EL
+This module provides an installation of apache and its virtualhosts for CentOS/EL
 
 ## Features - in dev process!
     
@@ -73,7 +73,7 @@ Hash value
         MaxRequestsPerChild 4000
     </ifModule>
 
-A combined example can be see in manifests/conf.pp that is used as default setup
+A combined example can be sees in manifests/conf.pp that is used as default setup
 
 ## Custom httpd.conf
 TODO
