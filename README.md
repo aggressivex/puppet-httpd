@@ -83,29 +83,41 @@ TODO
 It's possible to add virtualhost using httpd::vhost::add, next params are
 available
 
-    value | default
-    $ip        = $::ipaddress - Uses primary ip if not defined
-    $port      = 80 - Uses port 80 as default
-    $project   = default - use default name to agroup vhosts
-    $host      = $::hostname.dev - use the host name .dev as default domain name
-    $extraPath = '' - Can add extra path for DocumentRoot Eg: Symfony/web
-    $setupMode = default - Select common template setups [default,ssl]
-    $vhost     = false - Override vhosts options
-    $dirs      = false - Override directories to create in setup
-    $setup     = false - Override setup options
+Param = Default - Description
 
+- ip         = $::ipaddress - Uses primary ip if not defined
+- port       = 80 - Uses port 80 as default
+- project    = default - use default name to agroup vhosts
+- host       = $::hostname.dev - use the host name .dev as default domain name
+- extraPath  = '' - Can add extra path for DocumentRoot Eg: Symfony/web
+- setupMode  = default - Select common template setups [default,ssl]
+- vhostSetup = {} - Add or replace vhosts directives for vhost.conf, it's 
+recursive, Eg: you can replace only one option inside from Directory …
+- dirs       = false - Array that overrides directories to create for vhost (see
+    default structure for vhosts)
+- setup      = {} - Override setup options (if you want to replace the
+    ruby teplate generator)
+
+Examples
 
     httpd::vhost::add { 'localhost.dev':
       ip => '192.168.33.10',
     }
 
     httpd::vhost::add { 'tested.dev':
-      ip => '192.168.33.10',
+      ip   => '192.168.33.10',
       host => 'tested.dev',
     }
 
-## VirtualHosts batch add
-TODO
+    httpd::vhost::add { 'localhost.dev':
+      ip => '192.168.33.10',
+      vhostSetup => {
+        'ServerAlias' => 'www.localhost.dev',
+        'Directory /var/www/vhosts/default/localhost.dev/httpdocs/' => {
+          'AllowOverride' => 'None'
+        }
+      }
+    }
 
 ## Conf file generator
 TODO
