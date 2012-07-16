@@ -18,9 +18,17 @@ This module provides an installation of apache and its virtualhosts for CentOS/E
 
 ## Basic usage
 
-To install Apache, include module in your puppet file
+To install Apache, call the methods in your manifest file
 
-    include httpd
+    http::setup {'httpd_setup':}
+
+Defining your own directives
+
+    httpd::setup { 'httpd_setup':
+      httpdSetup => {
+        'Listen' => '*:80'
+      }
+    }
 
 ## Configuration files schema
 
