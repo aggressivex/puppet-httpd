@@ -73,7 +73,7 @@ Hash value
         MaxRequestsPerChild 4000
     </ifModule>
 
-A combined example can be sees in manifests/conf.pp that is used as default setup
+A combined example can be seen in manifests/conf.pp that is used as default setup
 
 ## Custom httpd.conf
 TODO
