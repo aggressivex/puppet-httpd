@@ -34,6 +34,8 @@ define httpd::vhost::add (
   $final_dirs = $default_dirs
 
   $default_setup = {
+    'includer' => '/etc/httpd/conf.d/vhosts.conf',
+    'include'  => "/var/www/vhosts/$project/$host/conf/httpd/*",
     'template' => 'httpd/vhost.auto.erb'
   }
 
@@ -52,11 +54,24 @@ define httpd::vhost::add (
     group   => root,
     mode    => 644,
     content => template($final_setup['template']),
-    require => [Service['httpd'], File['httpd_conf_directory']]
+    require => Package['httpd'],
     notify  => Service['httpd'],
   }
 
   host { $host: ip => $ip,}
 
-  # Append to vhosts include
+  $include = $default_setup['include']
+  $includer = $default_setup['includer']
+
+  # file { "/etc/modules": ensure => present, }
+  # line { dummy_module:
+  #     file => "/etc/modules",
+  #     line => "dummy",
+  # }
+
+  httpd::conf::line { httpd_vhost_add_include:
+    file => $includer,
+    line => "Include $include",
+    require => File['httpd_conf_directory']
+  }
 }

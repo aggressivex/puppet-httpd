@@ -46,7 +46,7 @@ class httpd {
     ensure  => directory,
     path    => $conf_setup['conf_path'],
     recurse => true,
-    purge   => true,
+    purge   => false,
     require => Package['httpd'],
   }
 
@@ -59,13 +59,13 @@ class httpd {
     require => File['httpd_conf_directory']
   }
 
-  file { "httpd_conf_vhost_include":
-    path    => $conf_setup['conf_vhost_include_path'],
-    ensure  => "present",
-    content => $conf_setup['conf_vhost_include_pattern'],
-    mode    => 644,
-    require => File['httpd_conf_directory']
-  }
+  # file { "httpd_conf_vhost_include":
+  #   path    => $conf_setup['conf_vhost_include_path'],
+  #   ensure  => "present",
+  #   content => $conf_setup['conf_vhost_include_pattern'],
+  #   mode    => 644,
+  #   require => File['httpd_conf_directory']
+  # }
 
   service { 'httpd':
     name       => 'httpd',  
