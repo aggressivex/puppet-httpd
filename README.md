@@ -79,7 +79,30 @@ A combined example can be seen in manifests/conf.pp that is used as default setu
 TODO
 
 ## VirtualHosts
-TODO
+
+It's possible to add virtualhost using httpd::vhost::add, next params are
+available
+
+    value | default
+    $ip        = $::ipaddress - Uses primary ip if not defined
+    $port      = 80 - Uses port 80 as default
+    $project   = default - use default name to agroup vhosts
+    $host      = $::hostname.dev - use the host name .dev as default domain name
+    $extraPath = '' - Can add extra path for DocumentRoot Eg: Symfony/web
+    $setupMode = default - Select common template setups [default,ssl]
+    $vhost     = false - Override vhosts options
+    $dirs      = false - Override directories to create in setup
+    $setup     = false - Override setup options
+
+
+    httpd::vhost::add { 'localhost.dev':
+      ip => '192.168.33.10',
+    }
+
+    httpd::vhost::add { 'tested.dev':
+      ip => '192.168.33.10',
+      host => 'tested.dev',
+    }
 
 ## VirtualHosts batch add
 TODO
