@@ -2,18 +2,20 @@
 #
 #
 define httpd::vhost::add (
-    $ip        = $::ipaddress,
-    $port      = '80',
-    $project   = 'default',
-    $host      = "$::hostname.dev",
-    $extraPath = '',
-    $setupMode = '',
-    $vhost     = false,
-    $dirs      = false,
-    $setup     = false,
+    $ip         = $::ipaddress,
+    $port       = '80',
+    $project    = 'default',
+    $host       = "$::hostname.dev",
+    $extraPath  = '',
+    $setupMode  = '',
+    $vhostSetup = {},
+    $dirs       = false,
+    $setup      = false,
   ) {
 
-  $default_vhost = {
+  $conf_vhost_override = $vhostSetup
+
+  $conf_vhost_default = {
     'DocumentRoot' => "/var/www/vhosts/$project/$host/httpdocs/$extraPath",
     'ServerName'   => "$host",
     'ServerAlias'  => "www.$host",
@@ -25,8 +27,6 @@ define httpd::vhost::add (
       'Allow'         => 'from all'
     }
   }
-
-  $final_vhost = $default_vhost
 
   if ! defined(File["/var/www/vhosts/$project"]) {
     file { "/var/www/vhosts/$project":
@@ -61,7 +61,6 @@ define httpd::vhost::add (
     mode    => 644,
     content => template($final_setup['template']),
     require => Package['httpd'],
-    notify  => Service['httpd'],
   }
 
   host { $host: ip => $ip,}
@@ -69,10 +68,10 @@ define httpd::vhost::add (
   $include = $default_setup['include']
   $includer = $default_setup['includer']
 
-  httpd::conf::line { "httpd_vhost_add_include${host}":
+  httpd::conf::line { "httpd_vhost_add_include_${host}":
     file => $includer,
     line => "Include $include",
-    require => File['httpd_conf_directory'],
+    require => File["httpd_vhost_add_file_${host}"],
     notify  => Service['httpd'],
   }
 }

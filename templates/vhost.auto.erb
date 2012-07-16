@@ -1,11 +1,19 @@
-#
+<%
+
+def recursive_merge(a, h)
+    a.merge!(h) {|key, _old, _new| if _old.class == Hash then recursive_merge(_old, _new) else _new end}
+end
+
+conf_vhost_final = recursive_merge(conf_vhost_default, conf_vhost_override)
+
+%>#
 # This file has been generated automatically by Aggressivex/puppet-httpd
 # Issue [No logical order] As ruby doesn't keep order in hashes, to avoid 
 # randomness hash is sort
 #
 NameVirtualHost <%= ip %>:<%= port %>
 <VirtualHost <%= ip %>:<%= port %>>
-<% final_vhost.sort.each do |key, value| -%>
+<% conf_vhost_final.sort.each do |key, value| -%>
     <% if value.is_a? String -%><%= key %> <%= value %>
 <% end -%>
     <% if value.is_a? Hash -%>

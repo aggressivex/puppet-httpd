@@ -1,9 +1,17 @@
-#
+<%
+
+def recursive_merge(a, h)
+    return a.merge!(h) {|key, _old, _new| if _old.class == Hash then recursive_merge(_old, _new) else _new end}
+end
+
+conf_httpd_final = recursive_merge(conf_httpd_default, conf_httpd_override)
+
+%>#
 # This file has been generated automatically by Aggressivex/puppet-httpd
 # Issue [No logical order] As ruby doesn't keep order in hashes, to avoid 
 # randomness hash is sort
 #
-<% conf_httpd.sort.each do |key, value| -%>
+<% conf_httpd_final.sort.each do |key, value| -%>
 <% if value.is_a? String -%><%= key %> <%= value %>
 <% end -%>
 <% if value.is_a? Hash -%>

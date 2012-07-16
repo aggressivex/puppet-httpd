@@ -5,11 +5,15 @@
 # "/var/www/*:projectName/*:hostName/conf/httpd/*" in this way, we will keep 
 # our VirtualHost files inside each host directory.
 #
-class httpd {
+class httpd (
+    $httpdSetup = {}
+  ) {
 
   include conf
 
-  $conf_httpd = $conf::default
+  $conf_httpd_override = $httpdSetup
+
+  $conf_httpd_default = $conf::default
   $conf_setup = $conf::setup
 
   $dependencies = ["make", "gcc", "openssl-devel", "apr-devel", "apr-util-devel"]
@@ -30,15 +34,15 @@ class httpd {
     ]
   }
 
-  group { $conf_httpd['Group']:
+  group { $conf_httpd_default['Group']:
     ensure  => "present",
     require => Package ['httpd'],
   }
 
-  user { $conf_httpd['User']:
+  user { $conf_httpd_default['User']:
     ensure     => "present",
     managehome => false,
-    groups     => [$conf_httpd['Group']],
+    groups     => [$conf_httpd_default['Group']],
     require    => Package ['httpd'],
   }
 
@@ -56,16 +60,9 @@ class httpd {
     group   => root,
     mode    => 644,
     content => template($conf_setup['conf_template']),
-    require => File['httpd_conf_directory']
+    require => [Package['httpd'], File['httpd_conf_directory']],
+    notify  => Service['httpd'],
   }
-
-  # file { "httpd_conf_vhost_include":
-  #   path    => $conf_setup['conf_vhost_include_path'],
-  #   ensure  => "present",
-  #   content => $conf_setup['conf_vhost_include_pattern'],
-  #   mode    => 644,
-  #   require => File['httpd_conf_directory']
-  # }
 
   service { 'httpd':
     name       => 'httpd',  
