@@ -18,7 +18,7 @@ This module provides an installation of apache and its virtualhosts for CentOS/E
 
 ## Basic usage
 
-To install Apache, call the methods in your manifest file
+To install Apache, call the method in your manifest file, don't need to include
 
     http::setup {'httpd_setup':}
 
