@@ -16,7 +16,7 @@ class conf {
     'ServerName'           => 'localhost.localdomain',
     'Listen'               => "*:80",
     'User'                 => 'apache',
-    'Group'                => 'www-data',
+    'Group'                => 'apache',
     'Timeout'              => '120',
     'KeepAlive'            => 'Off',
     'MaxKeepAliveRequests' => '100',
