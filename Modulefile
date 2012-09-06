@@ -1,0 +1,8 @@
+name    'aggressivex-httpd'
+version '0.9.1'
+author  'Luis M. Hdez'
+license 'MIT'
+project_page 'http://opensource.aggressivex.com/puppet/httpd'
+source  'https://github.com/aggressivex/puppet-httpd'
+summary 'Puppet module for httpd'
+description 'This module installs and manages httpd.'
