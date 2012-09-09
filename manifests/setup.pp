@@ -90,7 +90,7 @@ define httpd::setup (
       exec { "httpd-firewall-iptables-save":
         command => "service iptables save",
         path    => "/usr/local/bin/:/bin/:/usr/bin/:/usr/sbin:/sbin/",
-        require => Exec["httpd-firewall-iptables-add-tcp"]
+        require => Exec["httpd-firewall-iptables-add"]
       }
     }
   }
