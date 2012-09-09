@@ -6,7 +6,9 @@
 # our VirtualHost files inside each host directory.
 #
 define httpd::setup (
-    $httpdSetup = {}
+    $httpdSetup = {},
+    $firewall = false,
+    $firewallPort = 80
   ) {
 
   include conf
@@ -71,5 +73,25 @@ define httpd::setup (
     hasrestart => true,
     hasstatus  => true,
     require    => Package ['httpd']
+  }
+
+  case $firewall {
+    csf: {
+      csf::port::open {'httpd-firewall-csf-open': 
+        port => $defaultSetup['port']
+      }
+    }
+    iptables: {
+      exec { "httpd-firewall-iptables-add":
+        command => "iptables -I INPUT 5 -p tcp --dport $firewallPort -j ACCEPT",
+        path    => "/usr/local/bin/:/bin/:/usr/bin/:/usr/sbin:/sbin/",
+        require => Package["httpd"]
+      }      
+      exec { "httpd-firewall-iptables-save":
+        command => "service iptables save",
+        path    => "/usr/local/bin/:/bin/:/usr/bin/:/usr/sbin:/sbin/",
+        require => Exec["httpd-firewall-iptables-add-tcp"]
+      }
+    }
   }
 }
