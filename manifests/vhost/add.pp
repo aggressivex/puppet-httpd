@@ -28,6 +28,18 @@ define httpd::vhost::add (
     }
   }
 
+  if ! defined(File["/var/www"]) {
+    file { "/var/www":
+      ensure => "directory"
+    }
+  }
+
+  if ! defined(File["/var/www/vhosts"]) {
+    file { "/var/www/vhosts":
+      ensure => "directory"
+    }
+  }
+
   if ! defined(File["/var/www/vhosts/$project"]) {
     file { "/var/www/vhosts/$project":
       ensure => "directory"
