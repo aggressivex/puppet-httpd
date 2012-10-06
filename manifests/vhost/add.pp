@@ -28,25 +28,10 @@ define httpd::vhost::add (
     }
   }
 
-  if ! defined(File["/var/www"]) {
-    file { "/var/www":
-      ensure => "directory"
-    }
-  }
-
-  if ! defined(File["/var/www/vhosts"]) {
-    file { "/var/www/vhosts":
-      ensure => "directory"
-    }
-  }
-
-  if ! defined(File["/var/www/vhosts/$project"]) {
-    file { "/var/www/vhosts/$project":
-      ensure => "directory"
-    }
-  }
-
   $default_dirs = [
+    "/var/www",  
+    "/var/www/vhosts",  
+    "/var/www/vhosts/$project",
     "/var/www/vhosts/$project/$host",
     "/var/www/vhosts/$project/$host/httpdocs",
     "/var/www/vhosts/$project/$host/conf",
