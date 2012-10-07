@@ -28,10 +28,14 @@ define httpd::vhost::add (
     }
   }
 
+  $base_dir = "project-directory-${project}-${host}"
+
+  file { $base_dir:
+    path => "/var/www/vhosts/$project",
+    ensure => "directory"
+  }
+
   $default_dirs = [
-    "/var/www",  
-    "/var/www/vhosts",  
-    "/var/www/vhosts/$project",
     "/var/www/vhosts/$project/$host",
     "/var/www/vhosts/$project/$host/httpdocs",
     "/var/www/vhosts/$project/$host/conf",
@@ -50,7 +54,8 @@ define httpd::vhost::add (
   $final_setup = $default_setup
 
   file { $final_dirs:
-    ensure => "directory"
+    ensure => "directory",
+    require => Fiel['project-directory-$project-$host']
   }
 
   file { "httpd_vhost_add_file_${host}":
