@@ -27,12 +27,19 @@ define httpd::vhost::add (
       'Allow'         => 'from all'
     }
   }
-
+  
   $base_dir = "project-directory-${project}-${host}"
-
-  file { $base_dir:
-    path => "/var/www/vhosts/$project",
-    ensure => "directory"
+  exec {$base_dir:
+    command => "mkdir -p /var/www/vhosts/${project}",
+    returns => [0, 1, 2],
+    path => [
+    "/usr/local/bin/",
+    "/usr/bin/",
+    "/bin/" ,
+    "/usr/local/sbin/",
+    "/usr/sbin/",
+    "/sbin/" ],
+    require=> Package['httpd']
   }
 
   $default_dirs = [
@@ -55,7 +62,7 @@ define httpd::vhost::add (
 
   file { $final_dirs:
     ensure => "directory",
-    require => Fiel['project-directory-$project-$host']
+    require => Exec[$base_dir]
   }
 
   file { "httpd_vhost_add_file_${host}":
