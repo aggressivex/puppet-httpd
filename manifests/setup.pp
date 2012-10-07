@@ -66,6 +66,15 @@ define httpd::setup (
     notify  => Service['httpd'],
   }
 
+  $setup_dirs = [
+    "/var/www",
+    "/var/www/vhosts"
+  ]
+
+  file { $setup_dirs:
+    ensure => "directory"
+  }
+
   service { 'httpd':
     name       => 'httpd',  
     ensure     => 'running',
